@@ -28,7 +28,7 @@ SSyncFSM * pFsm;
 SWal *     pWal;
 SSyncNode *gSyncNode;
 
-const char* pDir = "./syncWriteTest";
+const char *pDir = "./syncWriteTest";
 
 void CommitCb(struct SSyncFSM *pFsm, const SRpcMsg *pMsg, SyncIndex index, bool isWeak, int32_t code,
               ESyncState state) {

@@ -19,9 +19,9 @@ uint16_t ports[] = {7010, 7110, 7210, 7310, 7410};
 int32_t  replicaNum = 5;
 int32_t  myIndex = 0;
 
-SRaftId   ids[TSDB_MAX_REPLICA];
-SSyncInfo syncInfo;
-SSyncFSM* pFsm;
+SRaftId     ids[TSDB_MAX_REPLICA];
+SSyncInfo   syncInfo;
+SSyncFSM*   pFsm;
 const char* pDir = "./syncEnqTest";
 
 SSyncNode* syncNodeInit() {
@@ -39,7 +39,7 @@ SSyncNode* syncNodeInit() {
 
   for (int i = 0; i < replicaNum; ++i) {
     pCfg->nodeInfo[i].nodePort = ports[i];
-    //snprintf(pCfg->nodeInfo[i].nodeFqdn, sizeof(pCfg->nodeInfo[i].nodeFqdn), "%s", "127.0.0.1");
+    // snprintf(pCfg->nodeInfo[i].nodeFqdn, sizeof(pCfg->nodeInfo[i].nodeFqdn), "%s", "127.0.0.1");
     taosGetFqdn(pCfg->nodeInfo[0].nodeFqdn);
   }
 

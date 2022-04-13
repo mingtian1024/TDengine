@@ -28,6 +28,8 @@ SSyncFSM * pFsm;
 SWal *     pWal;
 SSyncNode *gSyncNode;
 
+const char *pDir = "./syncReplicateTest";
+
 void CommitCb(struct SSyncFSM *pFsm, const SRpcMsg *pMsg, SyncIndex index, bool isWeak, int32_t code,
               ESyncState state) {
   char logBuf[256];
@@ -67,7 +69,7 @@ SSyncNode *syncNodeInit() {
   syncInfo.queue = gSyncIO->pMsgQ;
   syncInfo.FpEqMsg = syncIOEqMsg;
   syncInfo.pFsm = pFsm;
-  snprintf(syncInfo.path, sizeof(syncInfo.path), "./replicate_test_%d", myIndex);
+  snprintf(syncInfo.path, sizeof(syncInfo.path), "%s_sync_%d", pDir, myIndex);
 
   int code = walInit();
   assert(code == 0);
@@ -82,7 +84,7 @@ SSyncNode *syncNodeInit() {
   walCfg.level = TAOS_WAL_FSYNC;
 
   char tmpdir[128];
-  snprintf(tmpdir, sizeof(tmpdir), "./replicate_test_wal_%d", myIndex);
+  snprintf(tmpdir, sizeof(tmpdir), "%s_wal_%d", pDir, myIndex);
   pWal = walOpen(tmpdir, &walCfg);
   assert(pWal != NULL);
 
@@ -110,6 +112,8 @@ SSyncNode *syncNodeInit() {
   gSyncIO->FpOnSyncAppendEntriesReply = pSyncNode->FpOnAppendEntriesReply;
   gSyncIO->FpOnSyncTimeout = pSyncNode->FpOnTimeout;
   gSyncIO->pSyncNode = pSyncNode;
+
+  syncNodeStart(pSyncNode);
 
   return pSyncNode;
 }
