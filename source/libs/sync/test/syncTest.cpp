@@ -19,7 +19,5 @@ int main() {
   sDebugFlag = 143 + 64;
   logTest();
 
-  // sync raft ok 2022-04-12-21-27-42
-
   return 0;
 }
