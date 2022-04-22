@@ -18,6 +18,7 @@
 #include "syncRaftStore.h"
 #include "syncUtil.h"
 #include "syncVoteMgr.h"
+#include "trpc.h"
 
 // TLA+ Spec
 // HandleRequestVoteRequest(i, j, m) ==
@@ -64,7 +65,7 @@ int32_t syncNodeOnRequestVoteCb(SSyncNode* ths, SyncRequestVote* pMsg) {
     raftStoreVote(ths->pRaftStore, &(pMsg->srcId));
   }
 
-  SyncRequestVoteReply* pReply = syncRequestVoteReplyBuild();
+  SyncRequestVoteReply* pReply = syncRequestVoteReplyBuild(ths->vgId);
   pReply->srcId = ths->myRaftId;
   pReply->destId = pMsg->srcId;
   pReply->term = ths->pRaftStore->currentTerm;

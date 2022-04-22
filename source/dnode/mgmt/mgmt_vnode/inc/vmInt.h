@@ -105,6 +105,7 @@ void    vmStopWorker(SVnodesMgmt *pMgmt);
 int32_t vmAllocQueue(SVnodesMgmt *pMgmt, SVnodeObj *pVnode);
 void    vmFreeQueue(SVnodesMgmt *pMgmt, SVnodeObj *pVnode);
 
+int32_t vmPutMsgToSyncQueue(SMgmtWrapper *pWrapper, SRpcMsg *pRpc);  // sync integration
 int32_t vmPutMsgToQueryQueue(SMgmtWrapper *pWrapper, SRpcMsg *pMsg);
 int32_t vmPutMsgToFetchQueue(SMgmtWrapper *pWrapper, SRpcMsg *pMsg);
 int32_t vmPutMsgToApplyQueue(SMgmtWrapper *pWrapper, SRpcMsg *pMsg);
@@ -117,6 +118,11 @@ int32_t vmProcessFetchMsg(SMgmtWrapper *pWrapper, SNodeMsg *pMsg);
 int32_t vmProcessMergeMsg(SMgmtWrapper *pWrapper, SNodeMsg *pMsg);
 int32_t vmProcessMgmtMsg(SMgmtWrapper *pWrappert, SNodeMsg *pMsg);
 int32_t vmProcessMonitorMsg(SMgmtWrapper *pWrapper, SNodeMsg *pMsg);
+
+// sync integration
+void    vnodeSyncSetQ(SVnode *pVnode, void *qHandle);
+void    vnodeSyncSetRpc(SVnode *pVnode, void *rpcHandle);
+int32_t vnodeSyncStart(SVnode *pVnode);
 
 #ifdef __cplusplus
 }

@@ -124,6 +124,12 @@ SVnode *vnodeOpen(const char *path, STfs *pTfs, SMsgCb msgCb) {
     goto _err;
   }
 
+  // sync integration
+  // open sync
+  if (vnodeSyncOpen(pVnode, dir)) {
+    goto _err;
+  }
+
 #if 0
   if (vnodeBegin() < 0) {
     goto _err;
@@ -149,6 +155,10 @@ void vnodeClose(SVnode *pVnode) {
     vnodeSyncCommit(pVnode);
     // close vnode
     vnodeQueryClose(pVnode);
+
+    // sync integration
+    vnodeSyncClose(pVnode);
+
     walClose(pVnode->pWal);
     tqClose(pVnode->pTq);
     tsdbClose(pVnode->pTsdb);
@@ -159,3 +169,6 @@ void vnodeClose(SVnode *pVnode) {
     taosMemoryFree(pVnode);
   }
 }
+
+int64_t vnodeGetSyncHandle(SVnode *pVnode) { return pVnode->sync; }
+void    vnodeGetSnapshot(SVnode *pVnode, SSnapshot *pSnapshot) { pSnapshot->lastApplyIndex = pVnode->state.committed; }

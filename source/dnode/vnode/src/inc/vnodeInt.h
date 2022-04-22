@@ -96,6 +96,7 @@ struct SVnode {
   SWal*      pWal;
   STQ*       pTq;
   SSink*     pSink;
+  int64_t    sync;  // sync integration
   tsem_t     canCommit;
   SQHandle*  pQuery;
 };
@@ -112,6 +113,8 @@ void smaHandleRes(void* pVnode, int64_t smaId, const SArray* data);
 #include "tsdb.h"
 
 #include "tq.h"
+
+#include "vnodeSync.h"
 
 #ifdef __cplusplus
 }
